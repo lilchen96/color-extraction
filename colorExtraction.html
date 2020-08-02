@@ -93,10 +93,15 @@
     }
 
     function copyColor(e) {
-      if (e.code === "KeyC" && options.colorCode) {
+      if (e.code === "KeyC" || (e.code === "KeyX" && options.colorCode)) {
         let input = document.createElement("input");
         document.body.appendChild(input);
-        input.value = options.colorCode;
+        if (e.code === "KeyC") {
+          input.value = options.colorCode;
+        }
+        if (e.code === "KeyX") {
+          input.value = options.colorRgb;
+        }
         input.select();
         document.execCommand("copy");
         document.body.removeChild(input);

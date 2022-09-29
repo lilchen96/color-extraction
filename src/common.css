@@ -1,0 +1,21 @@
+.content {
+  border: 1px dashed #409eff;
+  position: relative;
+  width: 0px;
+  height: 0px;
+  cursor: crosshair;
+  display: none;
+}
+.color-display {
+  padding: 10px;
+  width: 120px;
+  background-color: black;
+  position: absolute;
+  display: none;
+  font-size: 12px;
+  color: #fff;
+}
+.color-item {
+  width: 20px;
+  height: 20px;
+}

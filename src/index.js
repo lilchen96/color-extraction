@@ -1,12 +1,16 @@
 /*
  * @Author: chenzihan
  * @Date: 2022-09-29 16:56:56
- * @LastEditTime: 2022-09-29 18:09:21
+ * @LastEditTime: 2022-10-09 10:10:47
  * @LastEditors: chenzihan
  * @Description:
  * @FilePath: \colorExtraction-demo\src\index.js
  */
-const { ref, watchEffect, computed, watch } = Vue;
+import {
+  ref,
+  watchEffect,
+  computed,
+} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js';
 
 let fileUploadEl = document.getElementsByClassName('fileUpload')[0];
 let contentEl = document.getElementsByClassName('content')[0];
@@ -14,7 +18,11 @@ let colorDisplayEl = document.getElementsByClassName('color-display')[0];
 let colorItemEl = document.getElementsByClassName('color-item')[0];
 let colorDescEl = document.getElementsByClassName('color-desc')[0];
 let canvas = document.getElementsByClassName('canvas')[0];
-let ctx = canvas.getContext('2d');
+
+// Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true
+let ctx = canvas.getContext('2d', {
+  willReadFrequently: true,
+});
 let options = {
   canvasWidth: 300,
   canvasHeight: 300,
@@ -129,18 +137,13 @@ function colorDisplayMove(x, y) {
   colorDisplayEl.style.left = x + 'px';
 }
 
-function copyColor(e) {
+async function copyColor(e) {
   if ((e.code === 'KeyC' || e.code === 'KeyX') && color.value) {
-    let input = document.createElement('input');
-    document.body.appendChild(input);
     if (e.code === 'KeyC') {
-      input.value = colorRgb.value;
+      navigator.clipboard.writeText(colorRgb.value);
     }
     if (e.code === 'KeyX') {
-      input.value = colorCode.value;
+      navigator.clipboard.writeText(colorCode.value);
     }
-    input.select();
-    document.execCommand('copy');
-    document.body.removeChild(input);
   }
 }

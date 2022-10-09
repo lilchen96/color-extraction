@@ -1,5 +1,5 @@
 {
-  "name": "colorextraction-demo",
+  "name": "color-extraction",
   "version": "1.0.0",
   "description": "图片取色器",
   "main": "index.js",

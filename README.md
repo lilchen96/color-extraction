@@ -30,3 +30,11 @@
 #### 打包文件
 
 `dist/`
+
+#### docker部署
+
+构建镜像：
+`docker build -t color-extraction:latest .`
+
+运行容器：
+`docker run -itd --restart always -e TZ=Asia/Shanghai -p 8060:80 --name color-extraction color-extraction:latest`

@@ -6,19 +6,19 @@
  * @Description:
  * @FilePath: \colorExtraction-demo\build\index.mjs
  */
-import fs, { unlink, copyFile, writeFile, readFileSync } from 'fs';
-import path from 'path';
-import { promisify } from 'util';
-import { spawnSync } from 'child_process';
-import CleanCSS from 'clean-css';
+import fs, { unlink, copyFile, writeFile, readFileSync } from "fs";
+import path from "path";
+import { promisify } from "util";
+import { execSync } from "child_process";
+import CleanCSS from "clean-css";
 const cleanCSS = new CleanCSS();
 
 const unlinkPromisify = promisify(unlink);
 const copyFilePromisify = promisify(copyFile);
 const writeFilePromisify = promisify(writeFile);
 
-const srcPath = path.resolve(process.cwd(), 'src');
-const distPath = path.resolve(process.cwd(), 'dist');
+const srcPath = path.resolve(process.cwd(), "src");
+const distPath = path.resolve(process.cwd(), "dist");
 const isDistExist = fs.existsSync(distPath);
 if (isDistExist) {
   await deleteDir(distPath);
@@ -27,7 +27,7 @@ if (isDistExist) {
 }
 const files = fs.readdirSync(srcPath);
 await buildDist(files);
-console.log('build success!');
+console.log("build success!");
 
 function deleteDir(dirPath) {
   const files = fs.readdirSync(distPath);
@@ -37,18 +37,14 @@ function deleteDir(dirPath) {
 }
 
 function compressJSFile(path) {
-  const { stdout } = spawnSync(
-    'npx.cmd',
-    ['uglifyjs', path, '--compress', '--mangle'],
-    {
-      encoding: 'utf-8',
-    }
-  );
+  const stdout = execSync(`npx uglifyjs "${path}" --compress --mangle`, {
+    encoding: "utf-8",
+  });
   return stdout;
 }
 
 function compressCSSFile(path) {
-  const content = readFileSync(path, { encoding: 'utf-8' });
+  const content = readFileSync(path, { encoding: "utf-8" });
   return cleanCSS.minify(content).styles;
 }
 

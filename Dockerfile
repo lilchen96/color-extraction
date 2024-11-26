@@ -6,8 +6,6 @@ COPY . .
 
 RUN npm install --registry https://registry.npmmirror.com
 
-RUN npm run clean
-
 RUN npm run build
 
 FROM nginx:alpine AS production-stage

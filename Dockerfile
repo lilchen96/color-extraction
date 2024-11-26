@@ -10,7 +10,7 @@ RUN npm run build
 
 FROM nginx:alpine AS production-stage
 
-COPY --from=build-stage /app/public/ /usr/share/nginx/html/
+COPY --from=build-stage /app/dist/ /usr/share/nginx/html/
 COPY --from=build-stage /app/nginx.conf /etc/nginx/conf.d/nginx.template
 
 EXPOSE 80
